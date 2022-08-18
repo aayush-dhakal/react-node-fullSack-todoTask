@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { Todo } = require("../models");
+const { Todo, Subtask, Sequelize } = require("../models");
 
 const router = express.Router();
 
@@ -12,6 +12,37 @@ router.post("/", async (req, res) => {
 
   try {
     let todo = await Todo.create({ title });
+
+    return res.json(todo);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    let todo = await Todo.findAll({
+      include: [
+        {
+          model: Subtask,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+      ],
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+    });
+
+    todo.rows.map((el) => {
+      let totalSubtasks = el.dataValues.status;
+      // let totalSubtasks =
+      //   parseInt(el.dataValues.noOfDays) *
+      //   Math.round(el.dataValues.AdSlot.pricePerDay).toFixed(2);
+      return (el.dataValues["totalSubtasks"] = total);
+    });
 
     return res.json(todo);
   } catch (err) {
