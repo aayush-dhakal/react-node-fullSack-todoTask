@@ -36,14 +36,6 @@ router.get("/", async (req, res) => {
       },
     });
 
-    todo.rows.map((el) => {
-      let totalSubtasks = el.dataValues.status;
-      // let totalSubtasks =
-      //   parseInt(el.dataValues.noOfDays) *
-      //   Math.round(el.dataValues.AdSlot.pricePerDay).toFixed(2);
-      return (el.dataValues["totalSubtasks"] = total);
-    });
-
     return res.json(todo);
   } catch (err) {
     console.log(err);

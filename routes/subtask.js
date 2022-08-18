@@ -34,7 +34,6 @@ router.get("/subtasks-count", async (req, res) => {
   }
 
   try {
-    // let subtask = await Subtask.findAndCountAll({ where: { todoId } });
     let totalSubtasks = await Subtask.count({ where: { todoId } });
     let completedSubtasks = await Subtask.count({
       where: { todoId, status: false },
