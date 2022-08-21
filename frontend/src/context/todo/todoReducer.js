@@ -6,23 +6,20 @@ export default (state, action) => {
       return {
         ...state,
         todo: action.payload,
-        loading: false,
       };
 
     case ADD_TODO:
       return {
         ...state,
         todo: [action.payload, ...state.todo],
-        loading: false,
       };
 
     case UPDATE_TODO:
       return {
         ...state,
         todo: state.todo.map((item) =>
-          todo._id === action.payload._id ? action.payload : item
+          item.todoId === action.payload.todoId ? action.payload : item
         ),
-        loading: false,
       };
 
     case TODO_ERROR:

@@ -27,15 +27,9 @@ const TodoState = (props) => {
   };
 
   // Add todo
-  const addTodo = async (todo) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
+  const addTodo = async (title) => {
     try {
-      const res = await axios.post("/api/todo", contact, config);
+      const res = await axios.post("/api/todo", { title });
 
       dispatch({ type: ADD_TODO, payload: res.data });
     } catch (err) {
@@ -47,15 +41,9 @@ const TodoState = (props) => {
   };
 
   // Update todo
-  const updateTodo = async (status) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
+  const updateTodo = async (todoId, status) => {
     try {
-      const res = await axios.put(`/api/todo/${todoId}`, config, {
+      const res = await axios.put(`/api/todo/${todoId}`, {
         status,
       });
 
