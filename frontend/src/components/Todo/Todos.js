@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import TodoContext from "../../context/todo/todoContext";
 import Loader from "../Spinner";
 import Accordion from "react-bootstrap/Accordion";
-import Subtasks from "./Subtasks/Subtasks";
+import Subtasks from "../Subtasks/Subtasks";
+import SubtaskForm from "../Subtasks/SubtaskForm";
 
 const Todos = () => {
   const todoContext = useContext(TodoContext);
@@ -10,25 +11,19 @@ const Todos = () => {
   const { getTodos, todo, updateTodo } = todoContext;
 
   const [loading, setLoading] = useState(false);
-  const [todoStatus, setTodoStatus] = useState(null);
-
-  // const getTodos = async () => {
-  //   const todo = await axios.get("/api/todo");
-  //   console.log(todo);
-  // };
 
   useEffect(() => {
     setLoading(true);
     getTodos();
     setLoading(false);
     // eslint-disable-next-line
-  }, [todoStatus]);
+  }, []);
 
   console.log(todo);
 
   const onClick = (todoId, status) => {
-    setTodoStatus(!status);
     updateTodo(todoId, !status);
+    getTodos();
   };
 
   return (
@@ -37,22 +32,23 @@ const Todos = () => {
       {todo != null &&
         todo.map((t) => (
           <div key={t.todoId}>
-            <Accordion defaultActiveKey={["0"]} alwaysOpen>
-              <Accordion.Item eventKey="0">
+            <Accordion style={{ position: "relative" }}>
+              <Accordion.Item eventKey={t.todoId}>
                 <Accordion.Header>
                   <input
-                    className="form-check-input m-1"
+                    className="form-check-input"
                     type="checkbox"
                     id="flexCheckChecked"
-                    value={todoStatus}
                     checked={t.status}
                     onClick={() => onClick(t.todoId, t.status)}
+                    style={{ margin: "0 10px 0px 2px" }}
                   />
                   {t.title}
                 </Accordion.Header>
                 <Accordion.Body className="m-0 p-0">
                   {t.Subtasks?.length > 0 &&
                     t.Subtasks.map((s) => <Subtasks subtask={s} />)}
+                  <SubtaskForm todoId={t.todoId} />
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
