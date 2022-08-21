@@ -27,7 +27,7 @@ const Todos = () => {
   };
 
   return (
-    <div>
+    <div className="mb-5">
       {loading && <Loader />}
       {todo != null &&
         todo.map((t) => (
@@ -46,7 +46,12 @@ const Todos = () => {
                   {t.title}
                   <span
                     className="text-muted"
-                    style={{ marginLeft: "auto", fontSize: "15px" }}
+                    style={{
+                      fontSize: "15px",
+                      position: "absolute",
+                      right: "50px",
+                      top: "30px",
+                    }}
                   >
                     {t.totoalSubtasks > 0 && (
                       <span>
