@@ -17,7 +17,7 @@ const TodoState = (props) => {
     try {
       const res = await axios.get("/api/todo");
 
-      dispatch({ type: GET_TODO, payload: res.data });
+      dispatch({ type: GET_TODO, payload: res.data.rows });
     } catch (err) {
       dispatch({
         type: TODO_ERROR,

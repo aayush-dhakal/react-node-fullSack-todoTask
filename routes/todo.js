@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let todo = await Todo.findAll({
+    let todo = await Todo.findAndCountAll({
       include: [
         {
           model: Subtask,
@@ -34,6 +34,18 @@ router.get("/", async (req, res) => {
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
+      order: [["createdAt", "DESC"]],
+    });
+
+    todo.rows.map((el) => {
+      let totoalSubtasks = el.Subtasks.length;
+
+      let completedSubtasks = 0;
+      el.Subtasks.forEach((s) =>
+        s.status == true ? (completedSubtasks += 1) : completedSubtasks
+      );
+      el.dataValues["totoalSubtasks"] = totoalSubtasks;
+      return (el.dataValues["completedSubtasks"] = completedSubtasks);
     });
 
     return res.json(todo);

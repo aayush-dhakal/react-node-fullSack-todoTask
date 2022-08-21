@@ -44,8 +44,18 @@ const Todos = () => {
                     style={{ margin: "0 10px 0px 2px" }}
                   />
                   {t.title}
+                  <span
+                    className="text-muted"
+                    style={{ marginLeft: "auto", fontSize: "15px" }}
+                  >
+                    {t.totoalSubtasks > 0 && (
+                      <span>
+                        {t.completedSubtasks} of {t.totoalSubtasks} completed
+                      </span>
+                    )}
+                  </span>
                 </Accordion.Header>
-                <Accordion.Body className="m-0 p-0">
+                <Accordion.Body className="m-0 p-0 text-muted">
                   {t.Subtasks?.length > 0 &&
                     t.Subtasks.map((s) => <Subtasks subtask={s} />)}
                   <SubtaskForm todoId={t.todoId} />

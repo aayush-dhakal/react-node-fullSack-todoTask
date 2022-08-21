@@ -26,26 +26,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/subtasks-count", async (req, res) => {
-  const { todoId } = req.body;
-
-  if (!todoId) {
-    return res.status(405).json({ msg: "Cannot find subtask without todoId" });
-  }
-
-  try {
-    let totalSubtasks = await Subtask.count({ where: { todoId } });
-    let completedSubtasks = await Subtask.count({
-      where: { todoId, status: true },
-    });
-
-    return res.json({ totalSubtasks, completedSubtasks });
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json(err);
-  }
-});
-
 router.put("/:subtaskId", async (req, res) => {
   const { status } = req.body;
   const { subtaskId } = req.params;
